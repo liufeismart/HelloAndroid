@@ -1,4 +1,4 @@
-package com.liufeismart.helloandroid.activity;
+package com.liufeismart.helloandroid;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.liufeismart.helloandroid.R;
+import com.liufeismart.helloandroid.settings.LanguageSettingsActiivty;
 
 public class MainActivity extends AppCompatActivity {
 

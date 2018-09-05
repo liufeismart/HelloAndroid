@@ -1,4 +1,4 @@
-package com.liufeismart.helloandroid.utils;
+package com.liufeismart.helloandroid.settings.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

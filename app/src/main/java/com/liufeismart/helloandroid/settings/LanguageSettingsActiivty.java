@@ -1,4 +1,4 @@
-package com.liufeismart.helloandroid.activity;
+package com.liufeismart.helloandroid.settings;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.liufeismart.helloandroid.R;
-import com.liufeismart.helloandroid.utils.LanguageUtil;
+import com.liufeismart.helloandroid.settings.utils.LanguageUtil;
 
 import java.util.Locale;
 

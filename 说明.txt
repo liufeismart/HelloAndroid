@@ -1,0 +1,3 @@
+1.设置语言
+
+2.Dialog式的Activity
