@@ -11,15 +11,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.liufeismart.helloandroid.settings.LanguageSettingsActiivty;
+import com.liufeismart.helloandroid.activity.HelloTestActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rv;
     private String[] data = {
-            "语言设置"
+            "语言设置",
+            "Junit"
     };
     private Class[] jumpTo = {
             LanguageSettingsActiivty.class,
+            HelloTestActivity.class
+
     };
 
 

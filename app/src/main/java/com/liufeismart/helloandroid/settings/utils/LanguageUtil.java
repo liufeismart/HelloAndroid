@@ -109,4 +109,9 @@ public class LanguageUtil {
 
         }
     }
+
+
+    public static void isToday() throws Exception{
+        int i = 1%0;
+    }
 }
