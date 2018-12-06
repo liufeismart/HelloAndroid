@@ -97,7 +97,10 @@ public class WifiActivity extends Activity {
                         WifiConfiguration config = configs.get(i);
                         if(config.SSID.equals(result.SSID)) {
                             mWifiManager.disconnect();
-                            mWifiManager.enableNetwork(config.networkId, true);
+                            config.preSharedKey = "123456";
+                            int networkId = mWifiManager.addNetwork(config);
+                            mWifiManager.enableNetwork(networkId, true);
+                            Log.v(TAG, "Connect" + config.SSID);
                             mWifiManager.reconnect();
                             break;
                         }
