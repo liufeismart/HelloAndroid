@@ -12,17 +12,20 @@ import android.widget.TextView;
 
 import com.liufeismart.helloandroid.settings.LanguageSettingsActiivty;
 import com.liufeismart.helloandroid.activity.HelloTestActivity;
+import com.liufeismart.helloandroid.wifi.WifiActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rv;
     private String[] data = {
             "语言设置",
-            "Junit"
+            "Junit",
+            "WIFI"
     };
     private Class[] jumpTo = {
             LanguageSettingsActiivty.class,
-            HelloTestActivity.class
+            HelloTestActivity.class,
+            WifiActivity.class
 
     };
 

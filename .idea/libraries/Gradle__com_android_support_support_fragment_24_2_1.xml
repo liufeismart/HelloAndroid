@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support:support-fragment-24.2.1">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/3f26667fb7364e7d13b72bb85e36cb1287635fc4/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/3f26667fb7364e7d13b72bb85e36cb1287635fc4/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/3f26667fb7364e7d13b72bb85e36cb1287635fc4/output/jars/libs/internal_impl-24.2.1.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/95ecbfd7d6a3d058c74c6bbca2b20359a510f511/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/95ecbfd7d6a3d058c74c6bbca2b20359a510f511/output/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/95ecbfd7d6a3d058c74c6bbca2b20359a510f511/output/jars/libs/internal_impl-24.2.1.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-fragment/24.2.1/support-fragment-24.2.1-javadoc.jar!/" />
