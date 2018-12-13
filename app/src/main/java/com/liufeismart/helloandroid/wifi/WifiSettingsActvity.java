@@ -10,7 +10,7 @@ import com.liufeismart.helloandroid.R;
 
 /**
  * Created by humax on 18/12/7
- * 打开系统Wifi界面
+ * 打开系统Wifi界面的四种方式
  */
 public class WifiSettingsActvity extends Activity {
 

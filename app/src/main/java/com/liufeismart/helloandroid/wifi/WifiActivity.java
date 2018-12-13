@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Created by humax on 18/12/6
- *
+ * 如何连接一个WiFi
  * 1.scan
  * 2.broadcastreceiver
  * 3.addNetwork,enableNetwork
@@ -152,6 +152,7 @@ public class WifiActivity extends Activity {
                                     conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
                                     break;
                             }
+                            //连接网络
                             mWifiManager.disconnect();
                             int netIdToConnect = mWifiManager.addNetwork(conf);
 
