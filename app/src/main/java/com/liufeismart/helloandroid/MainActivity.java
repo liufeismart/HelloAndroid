@@ -83,4 +83,9 @@ public class MainActivity extends AppCompatActivity {
             tv = itemView.findViewById(R.id.tv_);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

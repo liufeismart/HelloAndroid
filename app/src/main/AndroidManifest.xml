@@ -27,6 +27,9 @@
         <activity android:name=".activity.HelloTestActivity"/>
         <activity android:name=".activity.DialogActivity$HelloTestActivity2"/>
         <activity android:name=".wifi.WifiActivity"/>
+        <activity android:name=".wifi.WifiSettingsActvity">
+
+        </activity>
     </application>
 
 </manifest>

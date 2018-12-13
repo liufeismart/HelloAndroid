@@ -26,6 +26,10 @@ import java.util.List;
 
 /**
  * Created by humax on 18/12/6
+ *
+ * 1.scan
+ * 2.broadcastreceiver
+ * 3.addNetwork,enableNetwork
  */
 public class WifiActivity extends Activity {
     private RecyclerView rv;
@@ -35,6 +39,10 @@ public class WifiActivity extends Activity {
     private WifiActivity.MyAdapter myAdapter;
 
     private List<ScanResult> data = new ArrayList<>();
+    public final String[] capabilities = {"PSK", "WEP", "Open"};
+
+    private ConnectionReceiver connectionReceiver;
+    private ScanReceiver mScanReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,26 +50,41 @@ public class WifiActivity extends Activity {
         setContentView(R.layout.activity_wifi);
         rv = (RecyclerView) this.findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
         //
         myAdapter = new WifiActivity.MyAdapter(data);
         rv.setAdapter(myAdapter);
         //
         mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mWifiManager.startScan();
+
         registerWifi();
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver();
+    }
+
+
 
     private void registerWifi() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
         intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-        ConnectionReceiver connectionReceiver = new ConnectionReceiver();
+        connectionReceiver = new ConnectionReceiver();
         registerReceiver(connectionReceiver, intentFilter);
         IntentFilter scanFilter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        ScanReceiver mScanReceiver = new ScanReceiver();
+        mScanReceiver = new ScanReceiver();
         registerReceiver(mScanReceiver, scanFilter);
+    }
+
+
+    private void unregisterReceiver() {
+        unregisterReceiver(connectionReceiver);
+        unregisterReceiver(mScanReceiver);
     }
 
     class MyAdapter extends RecyclerView.Adapter<WifiActivity.MyViewHolder> {
@@ -92,22 +115,58 @@ public class WifiActivity extends Activity {
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    List<WifiConfiguration> configs = mWifiManager.getConfiguredNetworks();
-                    for(int i=0; i<configs.size(); i++) {
-                        WifiConfiguration config = configs.get(i);
-                        if(config.SSID.equals(result.SSID)) {
+                    WifiConfiguration conf = new WifiConfiguration();
+                    String ssidToConnect = result.SSID.replace("\"", "");
+                    conf.SSID = "\"" + ssidToConnect + "\"";
+                    Log.v(TAG, ssidToConnect+"  result.capabilities = " + result.capabilities);
+                    for(int i=0; i<capabilities.length; i++) {
+                        if(result.capabilities.contains(capabilities[i])) {
+                            String password = "12345678";
+                            switch(i) {
+                                case 0: //PSK
+                                    conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+
+                                    if (password.matches("[0-9A-Fa-f]{64}")) {
+                                        conf.preSharedKey = password;
+                                    } else {
+                                        conf.preSharedKey = '"' + password + '"';
+                                    }
+
+                                    break;
+                                case 1: //WEP
+                                    conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                                    conf.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+                                    conf.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+                                    if (password.length() != 0) {
+                                        int length = password.length();
+                                     // WEP-40, WEP-104, and 256-bit WEP (WEP-232?)
+                                        if ((length == 10 || length == 26 || length == 58) &&
+                                               password.matches("[0-9A-Fa-f]*")) {
+                                            conf.wepKeys[0] = password;
+                                        } else {
+                                            conf.wepKeys[0] = '"' + password + '"';
+                                        }
+                                    }
+                                    break;
+                                case 2: //Open
+                                    conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                                    break;
+                            }
                             mWifiManager.disconnect();
-                            config.preSharedKey = "123456";
-                            int networkId = mWifiManager.addNetwork(config);
-                            mWifiManager.enableNetwork(networkId, true);
-                            Log.v(TAG, "Connect" + config.SSID);
+                            int netIdToConnect = mWifiManager.addNetwork(conf);
+
+                            boolean result = mWifiManager.enableNetwork(netIdToConnect, true);
+                            Log.v(TAG, "Connect: "+ssidToConnect+": result = " + result);
                             mWifiManager.reconnect();
-                            break;
+                            mWifiManager.saveConfiguration();
                         }
                     }
+
                 }
             });
         }
+
+
 
         @Override
         public int getItemCount() {
@@ -166,9 +225,71 @@ public class WifiActivity extends Activity {
             data.addAll(list);
             for(int i=0; i<data.size(); i++) {
                 ScanResult result = data.get(i);
-                Log.v(TAG, "result.SSID ="+ result.SSID);
+//                Log.v(TAG, "result.SSID ="+ result.SSID);
             }
             myAdapter.notifyDataSetChanged();
         }
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
