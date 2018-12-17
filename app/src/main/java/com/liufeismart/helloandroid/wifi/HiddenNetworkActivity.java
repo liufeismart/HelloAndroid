@@ -1,7 +1,11 @@
 package com.liufeismart.helloandroid.wifi;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiEnterpriseConfig;
 import android.net.wifi.WifiManager;
@@ -11,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liufeismart.helloandroid.R;
@@ -25,6 +30,8 @@ import java.lang.reflect.Proxy;
  */
 public class HiddenNetworkActivity extends Activity {
 
+    private final String TAG = "HiddenNetworkActivity";
+
     static final int SECURITY_NONE = 0;
     static final int SECURITY_WEP = 1;
     static final int SECURITY_PSK = 2;
@@ -35,14 +42,18 @@ public class HiddenNetworkActivity extends Activity {
 
     private WifiManager wifiManager;
     private WifiConfiguration config;
+    private HiddenNetworkActivity.ConnectionReceiver connectionReceiver;
+
+    private TextView tv_connect_state;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hidden_network);
-
+        tv_connect_state = (TextView)this.findViewById(R.id.tv_connect_state);
         View tv_connect = this.findViewById(R.id.tv_connect);
+
         tv_connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,8 +95,20 @@ public class HiddenNetworkActivity extends Activity {
             }
         });
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+        connectionReceiver = new HiddenNetworkActivity.ConnectionReceiver();
+        registerReceiver(connectionReceiver, intentFilter);
+
+    }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(connectionReceiver);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -258,6 +281,41 @@ public class HiddenNetworkActivity extends Activity {
             return proxy;
         }
 
+    }
+
+
+    class ConnectionReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
+                NetworkInfo mNetworkInfo = (NetworkInfo)(intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO));
+                NetworkInfo.State mState = mNetworkInfo.getState();
+                if(mState == NetworkInfo.State.CONNECTED) {
+                    tv_connect_state.setText( "CONNECTED");
+                    Log.v(TAG, mNetworkInfo.getExtraInfo()+": "+ "CONNECTED");
+                } else if(mState == NetworkInfo.State.CONNECTING) {
+                    tv_connect_state.setText( "CONNECTING");
+                    Log.v(TAG, mNetworkInfo.getExtraInfo()+": "+ "CONNECTING");
+                } else if(mState == NetworkInfo.State.DISCONNECTED) {
+                    tv_connect_state.setText( "DISCONNECTED");
+                    Log.v(TAG, mNetworkInfo.getExtraInfo()+": "+ "DISCONNECTED");
+                } else if(mState == NetworkInfo.State.DISCONNECTING) {
+                    tv_connect_state.setText( "DISCONNECTING");
+                    Log.v(TAG, mNetworkInfo.getExtraInfo()+": "+ "DISCONNECTING");
+                } else if(mState == NetworkInfo.State.SUSPENDED) {
+                    tv_connect_state.setText( "SUSPENDED");
+                    Log.v(TAG, mNetworkInfo.getExtraInfo()+": "+ "SUSPENDED");
+                } else if(mState == NetworkInfo.State.UNKNOWN) {
+                    tv_connect_state.setText( "UNKNOWN");
+                    Log.v(TAG, mNetworkInfo.getExtraInfo()+": "+ "UNKNOWN");
+                }
+//                switch(mState) {
+//                    case NetworkInfo.State.CONNECTED:
+//                        break;
+//                }
+            }
+        }
     }
 
 }

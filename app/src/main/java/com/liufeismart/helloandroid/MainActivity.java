@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.liufeismart.helloandroid.activity.HelloTestActivity;
+import com.liufeismart.helloandroid.data.DataActivity;
 import com.liufeismart.helloandroid.settings.LanguageSettingsActiivty;
 import com.liufeismart.helloandroid.wifi.HiddenNetworkActivity;
 
@@ -20,12 +21,14 @@ public class MainActivity extends AppCompatActivity {
     private String[] data = {
             "语言设置",
             "Junit",
-            "WIFI"
+            "WIFI",
+            "数据结构"
     };
     private Class[] jumpTo = {
             LanguageSettingsActiivty.class,
             HelloTestActivity.class,
-            HiddenNetworkActivity.class
+            HiddenNetworkActivity.class,
+            DataActivity.class
 
     };
 
