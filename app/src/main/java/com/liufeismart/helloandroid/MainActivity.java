@@ -1,8 +1,8 @@
 package com.liufeismart.helloandroid;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,19 +10,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.liufeismart.helloandroid.settings.LanguageSettingsActiivty;
 import com.liufeismart.helloandroid.activity.HelloTestActivity;
+import com.liufeismart.helloandroid.data.DataActivity;
+import com.liufeismart.helloandroid.settings.LanguageSettingsActiivty;
+import com.liufeismart.helloandroid.wifi.HiddenNetworkActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rv;
     private String[] data = {
             "语言设置",
-            "Junit"
+            "Junit",
+            "WIFI",
+            "数据结构"
     };
     private Class[] jumpTo = {
             LanguageSettingsActiivty.class,
-            HelloTestActivity.class
+            HelloTestActivity.class,
+            HiddenNetworkActivity.class,
+            DataActivity.class
 
     };
 
@@ -80,4 +86,9 @@ public class MainActivity extends AppCompatActivity {
             tv = itemView.findViewById(R.id.tv_);
         }
     }
+
+//    @Override
+//    public void onBackPressed() {
+////        super.onBackPressed();
+//    }
 }

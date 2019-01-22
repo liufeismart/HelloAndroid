@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.liufeismart.helloandroid">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
     <Instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="com.liufeismart.helloandroid"/>
     <uses-library android:name="android.test.runner" />
+
     <application
 
         android:allowBackup="true"
@@ -23,6 +27,10 @@
         <activity android:name=".settings.LanguageSettingsActiivty"/>
         <activity android:name=".activity.HelloTestActivity"/>
         <activity android:name=".activity.DialogActivity$HelloTestActivity2"/>
+        <activity android:name=".wifi.WifiActivity"/>
+        <activity android:name=".wifi.WifiSettingsActvity"/>
+        <activity android:name=".wifi.HiddenNetworkActivity"/>
+
     </application>
 
 </manifest>
