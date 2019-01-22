@@ -1,3 +1,9 @@
 1.设置语言
 
 2.Dialog式的Activity
+
+3.
+
+4.mylibrary
+1)创建mylibrary file->new moudle -> Android Library
+2)aar文件 mylibray->build->outputs->aar

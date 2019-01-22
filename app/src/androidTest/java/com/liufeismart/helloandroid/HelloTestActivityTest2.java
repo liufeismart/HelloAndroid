@@ -34,7 +34,6 @@ public class HelloTestActivityTest2 extends ActivityInstrumentationTestCase2<Hel
         tv_test1 = (TextView)activity.findViewById(R.id.tv_test1);
 //        getInstrumentation().addM
                 Button btn;
-                btn.per
     }
 
 
